@@ -6,29 +6,42 @@ homeassistant:
   elevation: 11
   unit_system: metric
   time_zone: Europe/Moscow
-  internal_url: "http://localhost:8123"  
+  internal_url: "http://localhost:8123"
 
-# Отключаем ненужные компоненты для экономии RAM
+# Полностью отключаем проблемные компоненты
+dhcp:
+  enabled: false
+
 default_config:
   disable:
     - updater
     - mobile_app
     - cloud
-    - dhcp 
+    - discovery  # Добавлено отключение автообнаружения
+    - ssdp       # Отключаем поиск UPnP-устройств
+    - zeroconf   # Отключаем mDNS
 
-# Включаем только необходимые интеграции
-config:
-
-# Настройки логгирования (уменьшаем нагрузку)
-logger:
-  default: warning
-  logs:
-    homeassistant.components.mqtt: info  # Подробные логи только для MQTT
-
-# MQTT (основное подключение)
+# Оптимизированные настройки MQTT
 mqtt:
   broker: r62e666b.ala.eu-central-1.emqxsl.com
   port: 8883
   username: mqtt_user1
   password: RfNz3222281488
-  discovery: true
+  discovery: false  # Отключаем MQTT Discovery (ручное добавление устройств)
+  client_id: railway_ha_01  # Уникальный ID для подключения
+  keepalive: 60  # Увеличиваем интервал keepalive
+  protocol: 3.1.1  # Явно указываем версию MQTT
+
+# Жёстко ограничиваем логи
+logger:
+  default: error  # Только ошибки по умолчанию
+  logs:
+    homeassistant.components.mqtt: warning
+    homeassistant.core: error
+
+# Оптимизация памяти
+http:
+  server_port: 8123
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 10.0.0.0/8
