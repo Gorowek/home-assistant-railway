@@ -1,1 +1,1 @@
-FROM ghcr.io/home-assistant/home-assistant:core  # Облегчённая версия
+FROM ghcr.io/home-assistant/home-assistant:core
