@@ -32,11 +32,3 @@ mqtt:
   username: mqtt_user1
   password: RfNz3222281488
   discovery: true
-
-# Группы для интерфейса
-group:
-  default_view:
-    view: yes
-    entities:
-      - sensor.temperature_in_room
-      - switch.light_in_room
