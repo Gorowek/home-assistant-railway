@@ -1,12 +1,16 @@
 # Основные настройки
 homeassistant:
   name: Умный Дом
-  latitude: 59.9041  
+  latitude: 59.9041
   longitude: 30.5094
   elevation: 11
   unit_system: metric
   time_zone: Europe/Moscow
   internal_url: "http://localhost:8123"
+
+# Полное отключение проблемных сервисов
+dhcp:
+  enabled: false
 
 default_config:
   disable:
@@ -16,28 +20,48 @@ default_config:
     - discovery
     - ssdp
     - zeroconf
+    - met
+    - radio_browser
 
-# Оптимизированные настройки MQTT
+# Оптимизированный MQTT
 mqtt:
   broker: r62e666b.ala.eu-central-1.emqxsl.com
   port: 8883
   username: mqtt_user1
   password: RfNz3222281488
   discovery: false
-  client_id: railway_ha_01
+  client_id: railway_ha_${HOSTNAME}
   keepalive: 60
-  protocol: 3.1.1
+  reconnect_interval: 30
+  birth_message:
+    topic: 'homeassistant/status'
+    payload: 'online'
+    qos: 1
+    retain: true
 
-# Жёстко ограничиваем логи
+# Жесткий контроль логов
 logger:
-  default: error
+  default: critical
   logs:
     homeassistant.components.mqtt: warning
     homeassistant.core: error
+    homeassistant.setup: error
 
-# Оптимизация памяти
+# Оптимизация системы
+system_health:
+  mode: hidden
+
 http:
   server_port: 8123
   use_x_forwarded_for: true
-  trusted_proxies:
-    - 10.0.0.0/8
+  ip_ban_enabled: false
+  login_attempts_threshold: -1
+
+# Пример ручной конфигурации устройства
+binary_sensor:
+  - platform: mqtt
+    name: "Датчик движения"
+    state_topic: "home/sensors/motion"
+    payload_on: "ON"
+    payload_off: "OFF"
+    device_class: motion
