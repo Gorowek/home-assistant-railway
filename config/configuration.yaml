@@ -1,6 +1,4 @@
-# ======================
 # БАЗОВЫЕ НАСТРОЙКИ
-# ======================
 homeassistant:
   name: Умный Дом
   latitude: 59.9041
@@ -16,9 +14,7 @@ homeassistant:
   auth_providers:
     - type: homeassistant
 
-# ======================
 # ОТКЛЮЧЕНИЕ СЕРВИСОВ
-# ======================
 dhcp:
   enabled: false
   enable_auto_dhcp: false
@@ -39,9 +35,7 @@ default_config:
     - google_assistant
     - alexa
 
-# ======================
 # НАСТРОЙКА MQTT
-# ======================
 mqtt:
   broker: r62e666b.ala.eu-central-1.emqxsl.com
   port: 8883
@@ -58,9 +52,7 @@ mqtt:
     qos: 1
     retain: true
 
-# ======================
 # ЛОГИРОВАНИЕ
-# ======================
 logger:
   default: critical
   logs:
@@ -69,9 +61,7 @@ logger:
     homeassistant.core: error
     homeassistant.setup: error
 
-# ======================
 # ОПТИМИЗАЦИЯ
-# ======================
 system_health:
   mode: hidden
 
