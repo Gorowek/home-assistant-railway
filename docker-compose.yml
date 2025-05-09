@@ -1,9 +1,17 @@
-version: '3'
+version: '3.8'
 services:
   homeassistant:
     build: .
     ports:
       - "8123:8123"
     volumes:
-      - ./config:/config  # Конфигурация HA
+      - ./config:/config
+    environment:
+      - TZ=Europe/Moscow
+      - PYTHONUNBUFFERED=1
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8123"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
