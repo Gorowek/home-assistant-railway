@@ -8,18 +8,14 @@ homeassistant:
   time_zone: Europe/Moscow
   internal_url: "http://localhost:8123"
 
-# Полностью отключаем проблемные компоненты
-dhcp:
-  enabled: false
-
 default_config:
   disable:
     - updater
     - mobile_app
     - cloud
-    - discovery  # Добавлено отключение автообнаружения
-    - ssdp       # Отключаем поиск UPnP-устройств
-    - zeroconf   # Отключаем mDNS
+    - discovery
+    - ssdp
+    - zeroconf
 
 # Оптимизированные настройки MQTT
 mqtt:
@@ -27,14 +23,14 @@ mqtt:
   port: 8883
   username: mqtt_user1
   password: RfNz3222281488
-  discovery: false  # Отключаем MQTT Discovery (ручное добавление устройств)
-  client_id: railway_ha_01  # Уникальный ID для подключения
-  keepalive: 60  # Увеличиваем интервал keepalive
-  protocol: 3.1.1  # Явно указываем версию MQTT
+  discovery: false
+  client_id: railway_ha_01
+  keepalive: 60
+  protocol: 3.1.1
 
 # Жёстко ограничиваем логи
 logger:
-  default: error  # Только ошибки по умолчанию
+  default: error
   logs:
     homeassistant.components.mqtt: warning
     homeassistant.core: error
